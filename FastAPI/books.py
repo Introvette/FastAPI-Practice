@@ -73,9 +73,9 @@ async def update_book(book_name: str, book_title: str, book_author: str):
     # return new information user requested
 
 @app.delete("/{book_name}")
-async def delete_book(book_title: str):
-    del BOOKS['book_title']
-    return f'Book {book_title} deleted.'
+async def delete_book(book_name: str):
+    del BOOKS[book_name]
+    return f'Book {book_name} deleted.'
 
 
 
@@ -94,3 +94,8 @@ async def delete_book(book_title: str):
 # that last slash at the end is what tells the function it'll need query params
 async def read_book_assignment(book_name: str):
     return BOOKS[book_name]
+
+@app.delete("/assignment/")
+async def delete_book_assignment(book_name: str):
+    del BOOKS[book_name]
+    return BOOKS
