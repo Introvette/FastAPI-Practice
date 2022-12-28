@@ -14,3 +14,12 @@ BOOKS = {
 async def read_all_books():
     return BOOKS
 
+@app.get("books/mybook")
+async def read_favorite_book():
+    return {"book_title": "My favorite book"}
+
+@app.get("/books/{book_id}")
+async def read_book(book_id: int):
+    # can add int in the parameters to make sure  it has to be an integer
+    # parameter is book_title which is what we want in our response
+    return {"book_title": book_id}
