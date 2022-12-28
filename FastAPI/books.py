@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from enum import Enum
+# from enum import Enum
 from typing import Optional
 
 app = FastAPI()
@@ -72,7 +72,10 @@ async def update_book(book_name: str, book_title: str, book_author: str):
     return book_information
     # return new information user requested
 
-
+@app.delete("/{book_name}")
+async def delete_book(book_name):
+    del BOOKS[book_name]
+    return f'Book {book_name} deleted.'
 
 
 
