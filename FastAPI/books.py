@@ -12,11 +12,11 @@ BOOKS = {
     'book_5': {'title': 'Title Five', 'author': 'Author Five'},
 }
 
-class DirectionName(str, Enum):
-    north = "North"
-    south = "South"
-    east = "East"
-    west = "West"
+# class DirectionName(str, Enum):
+#     north = "North"
+#     south = "South"
+#     east = "East"
+#     west = "West"
 
 
 @app.get("/")
@@ -62,15 +62,27 @@ async def create_book(book_title, book_author):
     # create new value/id to create a new book with a book title and author
     return BOOKS[f'book_{current_book_id + 1}']
 
+@app.put("/{book_name}")
+async def update_book(book_name: str, book_title: str, book_author: str):
+    # book title and author in the typehint is a query parameter and book_name is the path parameter
+    book_information = {'title': book_title, 'author': book_author}
+    # new dictionary will be created
+    BOOKS[book_name] = book_information
+    # books at that book name will be equal new book information which is the dict of title and author
+    return book_information
+    # return new information user requested
 
 
-@app.get("/directions/{direction_name}")
-async def get_direction(direction_name: DirectionName):
-    if direction_name == DirectionName.north:
-        return {"Direction": direction_name, "sub": "Up"}
-    if direction_name == DirectionName.south:
-        return {"Direction": direction_name, "sub": "Down"}
-    if direction_name == DirectionName.west:
-        return {"Direction": direction_name, "sub": "Left"}
-    return {"Direction": direction_name, "sub": "Right"}
+
+
+
+# @app.get("/directions/{direction_name}")
+# async def get_direction(direction_name: DirectionName):
+#     if direction_name == DirectionName.north:
+#         return {"Direction": direction_name, "sub": "Up"}
+#     if direction_name == DirectionName.south:
+#         return {"Direction": direction_name, "sub": "Down"}
+#     if direction_name == DirectionName.west:
+#         return {"Direction": direction_name, "sub": "Left"}
+#     return {"Direction": direction_name, "sub": "Right"}
 
