@@ -38,11 +38,11 @@ async def read_book(book_name: str):
 async def read_favorite_book():
     return {"book_title": "My favorite book"}
 
-@app.get("/books/{book_id}")
-async def read_book(book_id: int):
+@app.get("/books/{book_name}")
+async def read_book(book_title: str, book_author: str):
     # can add int in the parameters to make sure  it has to be an integer
     # parameter is book_title which is what we want in our response
-    return {"book_title": book_id}
+    return {"book_title": book_title, "book_author": book_author}
 
 @app.post("/")
 async def create_book(book_title, book_author):
