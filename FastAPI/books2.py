@@ -25,6 +25,10 @@ BOOKS = []
 
 @app.get("/")
 async def read_all_books():
+    if len(BOOKS) < 1:
+        # if there are no books in BOOKS empty list then we're going to use
+        # the books we made down below
+        create_books_no_api()
     return BOOKS
 
 
@@ -33,3 +37,33 @@ async def create_book(book: Book):
     # book of type Book (class we made)
     BOOKS.append(book)
     return book
+
+
+def create_books_no_api():
+    book_1 = Book(id="b833c191-7f5e-4866-83e2-489b41083e56",
+                  title= "Title One",
+                  author= "Author One",
+                  description= "Description 1",
+                  rating=60)
+    book_2 = Book(id="330bedd3-90cb-4457-898b-53bed7ea0d46",
+                  title= "Title Two",
+                  author= "Author Two",
+                  description= "Description 2",
+                  rating=90)
+    book_3 = Book(id="e3560404-26e3-4faf-a929-c519728876bc",
+                  title= "Title Three",
+                  author= "Author Three",
+                  description= "Description 3",
+                  rating=30)
+    book_4 = Book(id="cd421851-fbc5-4176-bd09-1c9a94327e1f",
+                  title= "Title Four",
+                  author= "Author Four",
+                  description= "Description 4",
+                  rating=75)
+    BOOKS.append(book_1)
+    BOOKS.append(book_2)
+    BOOKS.append(book_3)
+    BOOKS.append(book_4)
+
+
+
