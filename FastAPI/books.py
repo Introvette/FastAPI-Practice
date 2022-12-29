@@ -12,6 +12,7 @@ BOOKS = {
     'book_5': {'title': 'Title Five', 'author': 'Author Five'},
 }
 
+
 # class DirectionName(str, Enum):
 #     north = "North"
 #     south = "South"
@@ -28,21 +29,27 @@ async def read_all_books(skip_book: Optional[str] = None):
         return new_books
     return BOOKS
 
+
 @app.get("/{book_name}")
 async def read_book(book_name: str):
-    #typehingting!! ^^^^
+    # typehingting!! ^^^^
     return BOOKS[book_name]
+
+
 # returning a book name from the BOOKS dictionary
+
 
 @app.get("books/mybook")
 async def read_favorite_book():
     return {"book_title": "My favorite book"}
+
 
 @app.get("/books/{book_name}")
 async def read_book(book_title: str, book_author: str):
     # can add int in the parameters to make sure  it has to be an integer
     # parameter is book_title which is what we want in our response
     return {"book_title": book_title, "book_author": book_author}
+
 
 @app.post("/")
 async def create_book(book_title, book_author):
@@ -62,6 +69,7 @@ async def create_book(book_title, book_author):
     # create new value/id to create a new book with a book title and author
     return BOOKS[f'book_{current_book_id + 1}']
 
+
 @app.put("/{book_name}")
 async def update_book(book_name: str, book_title: str, book_author: str):
     # book title and author in the typehint is a query parameter and book_name is the path parameter
@@ -72,11 +80,11 @@ async def update_book(book_name: str, book_title: str, book_author: str):
     return book_information
     # return new information user requested
 
+
 @app.delete("/{book_name}")
 async def delete_book(book_name: str):
     del BOOKS[book_name]
     return f'Book {book_name} deleted.'
-
 
 
 # @app.get("/directions/{direction_name}")
@@ -94,6 +102,7 @@ async def delete_book(book_name: str):
 # that last slash at the end is what tells the function it'll need query params
 async def read_book_assignment(book_name: str):
     return BOOKS[book_name]
+
 
 @app.delete("/assignment/")
 async def delete_book_assignment(book_name: str):
