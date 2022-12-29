@@ -89,7 +89,7 @@ async def delete_book(book_name: str):
 #         return {"Direction": direction_name, "sub": "Left"}
 #     return {"Direction": direction_name, "sub": "Right"}
 
-# Robie's solution:
+# Robie's solutions:
 @app.get("/assignment/")
 # that last slash at the end is what tells the function it'll need query params
 async def read_book_assignment(book_name: str):
