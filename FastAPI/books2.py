@@ -51,6 +51,11 @@ async def read_all_books(books_to_return: Optional[int] = None):
         return new_books
     return BOOKS
 
+@app.get("/book/{book_id}")
+async def read_book(book_id: UUID):
+    for x in BOOKS:
+        if x.id == book_id:
+            return x
 
 @app.post("/")
 async def create_book(book: Book):
