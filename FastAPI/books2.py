@@ -18,6 +18,19 @@ class Book(BaseModel):
     # and less than (lt) 101
     # rating should never be over 100
 
+    class Config:
+        schema_extra = {
+            # this adds an example response body to our swagger UI
+            'example': {
+                'id': '1833c191-7f5e-4866-83e2-489b41083e56',
+                'title': 'Computer Science Pro',
+                'author': 'CodingwithRoby',
+                'description': 'an awesome book',
+                'rating': 75
+
+
+            }
+        }
 
 
 BOOKS = []
