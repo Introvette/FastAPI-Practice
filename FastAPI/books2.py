@@ -76,6 +76,15 @@ async def update_book(book_id: UUID, book: Book):
             return BOOKS[counter - 1]
         #updating book
 
+@app.delete("/{book_id}")
+async def delete_book(book_id: UUID):
+    # book type : UUID
+    counter = 0
+    for x in BOOKS:
+        counter += 1
+        if x.id == book_id:
+            del BOOKS[counter - 1]
+            return f'ID:{book_id} deleted'
 
 def create_books_no_api():
     book_1 = Book(id="b833c191-7f5e-4866-83e2-489b41083e56",
