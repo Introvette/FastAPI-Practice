@@ -1,7 +1,13 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel, Field
 from uuid import UUID
 from typing import Optional
+from starlette.responses import JSONResponse
+
+
+class NegativeNumberException(Exception):
+    def __init__(self, books_to_return):
+        self.books_to_return = books_to_return
 
 
 app = FastAPI()
@@ -34,11 +40,30 @@ class Book(BaseModel):
         }
 
 
+class BookNoRating(BaseModel):
+    id: UUID
+    title: str = Field(min_length = 1)
+    author: str
+    description: Optional[str] = Field(None, title="description of the Book", min_length=1, max_length=100)
+
+
 BOOKS = []
+
+
+@app.exception_handler(NegativeNumberException)
+async def negative_number_exception_handler(request: Request,
+                                            exception: NegativeNumberException):
+    return JSONResponse(
+        status_code=418,
+        content={"message": f"Hey, why do you want {exception.books_to_return}"
+                f"books? You need to read more!"}
+    )
 
 
 @app.get("/")
 async def read_all_books(books_to_return: Optional[int] = None):
+    if books_to_return and books_to_return < 0:
+        raise NegativeNumberException(books_to_return=books_to_return)
     if len(BOOKS) < 1:
         # if there are no books in BOOKS empty list then we're going to use
         # the books we made down below
@@ -61,6 +86,15 @@ async def read_book(book_id: UUID):
     raise raise_item_cannot_be_found_exception()
 
 
+@app.get("/book/rating/{book_id}", response_model=BookNoRating)
+async def read_book_no_rating(book_id: UUID):
+    for x in BOOKS:
+        if x.id == book_id:
+            return x
+    raise raise_item_cannot_be_found_exception()
+# this eliminates the rating when sending a request to get details of a book without the rating
+
+
 @app.post("/")
 async def create_book(book: Book):
     # book of type Book (class we made)
@@ -77,6 +111,8 @@ async def update_book(book_id: UUID, book: Book):
             BOOKS[counter - 1] = book
             return BOOKS[counter - 1]
     raise raise_item_cannot_be_found_exception()
+
+
 @app.delete("/{book_id}")
 async def delete_book(book_id: UUID):
     # book type : UUID
@@ -88,6 +124,7 @@ async def delete_book(book_id: UUID):
             return f'ID:{book_id} deleted'
         # raise exception for when book_id does not exist
     raise raise_item_cannot_be_found_exception()
+
 
 def create_books_no_api():
     book_1 = Book(id="b833c191-7f5e-4866-83e2-489b41083e56",
