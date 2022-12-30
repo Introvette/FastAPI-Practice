@@ -51,17 +51,29 @@ async def read_all_books(books_to_return: Optional[int] = None):
         return new_books
     return BOOKS
 
+
 @app.get("/book/{book_id}")
 async def read_book(book_id: UUID):
     for x in BOOKS:
         if x.id == book_id:
             return x
 
+
 @app.post("/")
 async def create_book(book: Book):
     # book of type Book (class we made)
     BOOKS.append(book)
     return book
+
+
+@app.put("/{book_id}")
+async def update_book(book_id: UUID, book: Book):
+    counter = 0
+    for x in BOOKS:
+        counter += 1
+        if x.id == book_id:
+            BOOKS[counter - 1] = book
+            return BOOKS[counter - 1]
 
 
 def create_books_no_api():
