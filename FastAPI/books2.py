@@ -74,6 +74,7 @@ async def update_book(book_id: UUID, book: Book):
         if x.id == book_id:
             BOOKS[counter - 1] = book
             return BOOKS[counter - 1]
+        #updating book
 
 
 def create_books_no_api():
