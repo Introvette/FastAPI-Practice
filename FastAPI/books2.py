@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request, status, Form
+from fastapi import FastAPI, HTTPException, Request, status, Form, Header
 from pydantic import BaseModel, Field
 from uuid import UUID
 from typing import Optional
@@ -59,10 +59,15 @@ async def negative_number_exception_handler(request: Request,
                 f"books? You need to read more!"}
     )
 
+
 @app.post('/books/login')
 async def books_login(username: str = Form(...), password: str = Form(...)):
     # ^^ no longer need the "..." in new FastAPI version
     return {"username": username, "password": password}
+
+@app.get("/header")
+async def read_header(random_header: Optional[str] = Header(None)):
+    return {"random_header": random_header}
 
 @app.get("/")
 async def read_all_books(books_to_return: Optional[int] = None):
