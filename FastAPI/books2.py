@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, status
 from pydantic import BaseModel, Field
 from uuid import UUID
 from typing import Optional
@@ -95,7 +95,7 @@ async def read_book_no_rating(book_id: UUID):
 # this eliminates the rating when sending a request to get details of a book without the rating
 
 
-@app.post("/")
+@app.post("/", status_code=status.HTTP_201_CREATED)
 async def create_book(book: Book):
     # book of type Book (class we made)
     BOOKS.append(book)
