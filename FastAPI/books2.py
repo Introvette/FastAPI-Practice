@@ -60,14 +60,17 @@ async def negative_number_exception_handler(request: Request,
     )
 
 
-@app.post('/books/login')
-async def books_login(username: str = Form(...), password: str = Form(...)):
-    # ^^ no longer need the "..." in new FastAPI version
-    return {"username": username, "password": password}
+@app.post('/books/login/')
+async def books_login(book_id: int, username: Optional[str] = Header(None), password: Optional[str] = Header(None)):
+    if username == 'FastAPIUser' and password == 'test1234':
+        return BOOKS[book_id]
+    return 'Invalid User'
+
 
 @app.get("/header")
 async def read_header(random_header: Optional[str] = Header(None)):
     return {"random_header": random_header}
+
 
 @app.get("/")
 async def read_all_books(books_to_return: Optional[int] = None):
@@ -165,3 +168,4 @@ def create_books_no_api():
 def raise_item_cannot_be_found_exception():
     return HTTPException(status_code=404, detail="Book not found", headers={"X-Header_Error": "Nothing to be seen at this UUID"})
 # this is a separate function to be called in the delete function or any function that may query for an UUID that may not exist.
+
