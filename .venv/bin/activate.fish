@@ -30,7 +30,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/vette/Documents/udemy/Python-Project/.venv"
+set -gx VIRTUAL_ENV "/Users/vette/Documents/FastAPI-Practice/.venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
